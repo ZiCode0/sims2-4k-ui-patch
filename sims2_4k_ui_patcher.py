@@ -89,7 +89,7 @@ class PatcherApplication(tk.Tk):
         self.banner_image.pack(side=tk.LEFT, padx=8, pady=8)
 
         # Create group box to select game files
-        self.groupbox1 = ttk.LabelFrame(self, text="EA Games folder")
+        self.groupbox1 = ttk.LabelFrame(self, text="Game Folder")
         self.groupbox1.pack(padx=8, pady=8, expand=True)
         self.input_dir = ttk.Entry(self.groupbox1, width=50)
         self.input_dir.grid(column=0, row=0, padx=8, pady=8)
@@ -200,7 +200,7 @@ class PatcherApplication(tk.Tk):
             if os.path.exists(path):
                 initial_dir = path
                 break
-        dirname = filedialog.askdirectory(initialdir=initial_dir, title="Select EA GAMES directory", mustexist=True)
+        dirname = filedialog.askdirectory(initialdir=initial_dir, title="Select The Sims 2 directory", mustexist=True)
 
         if not dirname:
             return
@@ -231,7 +231,7 @@ class PatcherApplication(tk.Tk):
         """
         files = []
         for filename in ["ui.package", "FontStyle.ini", "CaSIEUI.data"]:
-            files += glob.glob(os.path.join(self.ea_games_dir, "*Sims 2*", f"**/**/TSData/**/{filename}"), recursive=True)
+            files += glob.glob(f"{self.ea_games_dir}/**/{filename}", recursive=True)
         return sorted(list(set(files)))
 
     def refresh_game_status(self):
@@ -253,7 +253,7 @@ class PatcherApplication(tk.Tk):
         # Make sure we have a valid game directory
         if not patch_list:
             messagebox.showerror("Wrong folder selected", "No installation of The Sims 2 (or its expansion packs) was found in this folder.")
-            self.set_status_bar_text("Missing EA Games Folder")
+            self.set_status_bar_text("Missing Game Folder")
             return
 
         # Gather list of game files

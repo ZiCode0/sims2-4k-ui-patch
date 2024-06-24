@@ -38,9 +38,9 @@ class GameFile():
         self.file_path = path
         self.backup_path = path + ".bak"
         self.meta_path = path + ".patched"
-        self.game_name = self.get_game_name(path)
+        self.game_name = "The Sims 2*"
         self.name = os.path.basename(path)
-        self.relative_path = self.file_path.split(self.game_name)[1][1:]
+        self.relative_path = path
 
         self.backed_up = os.path.exists(self.backup_path)
         self.patched = False
@@ -57,7 +57,7 @@ class GameFile():
         Identify the game name by going up a directory until we find "filelist.txt",
         the root of the game installation, and take the name from this directory.
         """
-        return "The Sims 2 Ultimate Collection"
+        return "The Sims 2*"
         path = os.path.realpath(file_path)
         root_count = len(path.split(os.sep))
         while root_count > 2:
