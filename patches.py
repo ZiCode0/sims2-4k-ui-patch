@@ -31,7 +31,7 @@ import dbpf
 from gamefile import GameFile
 
 # Density to multiply the UI dialog geometry and graphics
-UI_MULTIPLIER: int = 2
+UI_MULTIPLIER: float = 1.5
 
 # Compression keeps the package files small, but takes longer to process
 COMPRESS_PACKAGE: bool = False
@@ -85,7 +85,7 @@ def _upscale_graphic(entry: dbpf.Index.Entry) -> bytes:
         return entry.data
 
     original = Image.open(io.BytesIO(entry.data), formats=[file_type])
-    resized = original.resize((original.width * UI_MULTIPLIER, original.height * UI_MULTIPLIER), resample=UPSCALE_FILTER)
+    resized = original.resize((int(original.width * UI_MULTIPLIER), int(original.height * UI_MULTIPLIER)), resample=UPSCALE_FILTER)
 
     output = io.BytesIO()
     resized.save(output, format=file_type)
@@ -128,7 +128,7 @@ def _upscale_uiscript(entry: dbpf.Index.Entry):
             new_values = []
             values = part.split("(")[1].split(")")[0]
             for number in values.split(","):
-                new_values.append(str(int(number) * UI_MULTIPLIER))
+                new_values.append(str(int(int(number) * UI_MULTIPLIER)))
             part = f"{name}={part.replace(values, ','.join(new_values))}"
             output.append(part)
         return "".join(output)
@@ -204,7 +204,7 @@ def upscale_fontstyle_ini(file: GameFile, write_meta_file=True):
             continue
 
         old_size = int(parts[3])
-        new_size = old_size * UI_MULTIPLIER
+        new_size = int(old_size * UI_MULTIPLIER)
         parts[3] = str(new_size)
         output.append('"'.join(parts))
 
